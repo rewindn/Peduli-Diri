@@ -1,0 +1,39 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>tanggal</th>
+            <th>jam</th>
+            <th>suhu</th>
+            <th>lokasi</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <%for(let i = 0 ; i < catatan.length ; i++){ %>
+        <tr>
+            <td><%= i +1 %></td>
+            <td><%= catatan[i].tanggal %></td>
+            <td><%= catatan[i].jam %></td>
+            <td><%= catatan[i].suhu %></td>
+            <td><%= catatan[i].lokasi %></td>
+            <td>
+                <form
+                    action="/catatan/delete/<%=catatan[i]._id %>?method=DELETE"
+                    method="post"
+                >
+                    <a
+                        href="/catatan/edit/<%=catatan[i]._id %>"
+                        class="btn btn-warning"
+                        >Ubah
+                    </a>
+                    <a href="">
+                        <button class="btn btn-danger">Hapus</button>
+                    </a>
+                </form>
+            </td>
+        </tr>
+        <% }%>
+    </tbody>
+   
+</table>
