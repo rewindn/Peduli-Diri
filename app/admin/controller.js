@@ -75,12 +75,15 @@ module.exports = {
             // console.log(check.email);
             if (check) {
                 if (check.status === "Y") {
-                    const checkPassword = bcrypt.compare(
+                    console.log(password);
+                    console.log(check.password);
+                    const checkPassword = await bcrypt.compare(
                         password,
                         check.password
                     );
                   
                     if (checkPassword) {
+                        console.log(checkPassword);
                         req.session.user = {
                             id: check._id,
                             email: check.email,

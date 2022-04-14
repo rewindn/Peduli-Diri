@@ -27,7 +27,10 @@ module.exports = {
     },
     viewCreate: async (req, res) => {
         try {
+            const  jam  = new Date().toLocaleTimeString()
+            const tanggal = new Date().toLocaleDateString()
             res.render("admin/catatan/create.ejs", {
+                jam,tanggal,
                 name: req.session.user.name,
                 title: "Tambah Catatan",
             });
@@ -44,15 +47,22 @@ module.exports = {
             const email = req.session.user.email
             const  jam  = new Date().toLocaleTimeString()
             const tanggal = new Date().toLocaleDateString()
-            const catatan = await Catatan({ email,suhu,lokasi,tanggal,jam });
-            catatan.save();
+            const catatan =  Catatan({ email,suhu,lokasi,tanggal,jam });
+           await  catatan.save();
             req.flash("alertMessage", `Berhasil menambahkan kategori`);
             req.flash("alertStatus", `alert-success`);
 
             res.redirect("/catatan");
         } catch (error) {
-            req.flash("alertMessage", ` ${error.message}`);
+            if (error && error.name === "ValidationError") {
+                req.flash("alertMessage", ` ${error.message}`);
             req.flash("alertStatus", `alert-danger`);
+        
+            }else{
+                 req.flash("alertMessage", ` ${error.message}`);
+            req.flash("alertStatus", `alert-danger`);
+            }
+           
             res.redirect("/catatan");
         }
     },
@@ -60,8 +70,11 @@ module.exports = {
         try {
             const _id = req.params.id;
             const catatan = await Catatan.findById(_id);
-
+            const  jam  = new Date().toLocaleTimeString()
+            const tanggal = new Date().toLocaleDateString()
             res.render("admin/catatan/edit.ejs", {
+                jam,
+                tanggal,
                 catatan,
                 name: req.session.user.name,
                 title: "Halaman Tambah Edit",
@@ -76,11 +89,11 @@ module.exports = {
     edit: async (req, res) => {
         try {
             const id = req.params.id;
-            const { name } = req.body;
-            await Catatan.findOneAndUpdate({ _id: id }, { name });
+            const { suhu,lokasi } = req.body;
+          const catatan =   await Catatan.findOneAndUpdate({ _id: id }, { suhu,lokasi });
             req.flash(
                 "alertMessage",
-                `Berhasil mungubah kategori menjadi ${name}`
+                `Berhasil mungubah catatan`
             );
             req.flash("alertStatus", `alert-success`);
             res.redirect("/catatan");

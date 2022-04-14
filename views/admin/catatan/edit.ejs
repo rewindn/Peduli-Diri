@@ -37,7 +37,7 @@ include ../../part/header.ejs %>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="/catatan/create" method="post">
+                            <form action="/catatan/edit/<%=catatan._id %>?method=PUT" method="post">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"
@@ -79,6 +79,7 @@ include ../../part/header.ejs %>
                                             class="form-control"
                                             id="exampleInputEmail1"
                                             name="suhu"
+                                            value="<%= catatan.suhu%>"
                                             placeholder="Masukan Nama Kategori"
                                             required
                                         />
@@ -93,6 +94,7 @@ include ../../part/header.ejs %>
                                             type="text"
                                             class="form-control"
                                             id="exampleInputEmail1"
+                                            value="<%= catatan.lokasi%>"
                                             name="lokasi"
                                             placeholder="Masukan Nama Kategori"
                                             required

@@ -28,4 +28,9 @@ let catatanSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+catatanSchema.path('suhu').validate(async function (value) {
+  return value < 37.2
+},(attr)=> `suhu anda terlalu panas untuk manusia normal` )
+
+
 module.exports = mongoose.model("catatan", catatanSchema);
